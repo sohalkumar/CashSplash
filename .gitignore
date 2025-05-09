@@ -1,0 +1,10 @@
+# Node modules
+app/node_modules/
+
+# Python virtual environment
+CashSplashBot/venv/
+
+# Other common ignores
+*.pyc
+__pycache__/
+.env
