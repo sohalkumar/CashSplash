@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  base: '/tg-betting-app/',
+  base: '/CashSplash/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname),
