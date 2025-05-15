@@ -12,7 +12,8 @@ export default defineConfig({
   base: '/CashSplash/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname),
+      '@': path.resolve(__dirname, 'src'),
+      '~': path.resolve(__dirname),
     }
   }
 })

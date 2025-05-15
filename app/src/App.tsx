@@ -1,28 +1,50 @@
-import Header from "@/src/components/Header";
+import Header from "@/components/Header";
+import HeroSection from "@/components/HeroSection";
+import { Toaster } from "react-hot-toast";
+import { useAppDispatch } from "./redux/store";
+import { formatAddress } from "./lib/utils";
 import { useTonAddress, useTonWallet } from "@tonconnect/ui-react";
-import { type UserWallet } from "@/types/index";
+import { useEffect } from "react";
+import { clearUser, setUser } from "./redux/slices/userSlice";
 
 function App() {
-  const userWallet: UserWallet = useTonWallet();
+  const userWallet = useTonWallet();
   const userWalletAddress = useTonAddress();
+  const dispatch = useAppDispatch();
+
+  // Listener for wallet connection status
+  useEffect(() => {
+    if (userWallet) {
+      dispatch(
+        setUser({
+          userWallet: userWallet,
+          userWalletAddress: userWalletAddress,
+        })
+      );
+    } else {
+      dispatch(clearUser());
+    }
+  }, [userWallet, userWalletAddress, dispatch]);
 
   return (
-    <div>
-      <Header userWallet={userWallet} />
-      <h3 className="text-center md:text-2xl mt-10 text-wrap">
+    <>
+      <Header />
+      <h3 className="text-light text-center text-wrap md:text-2xl mt-10">
         {userWalletAddress ? (
           <>
             Connected to wallet:
             <span className="text-sky-600 font-semibold">
-              {userWalletAddress.slice(0, 6)}...
-              {userWalletAddress.slice(userWalletAddress.length - 5)}
+              {formatAddress(userWalletAddress)}
             </span>
           </>
         ) : (
           "Please connect your wallet"
         )}
       </h3>
-    </div>
+      <HeroSection />
+
+      <Toaster position="bottom-center" />
+    </>
   );
 }
 
